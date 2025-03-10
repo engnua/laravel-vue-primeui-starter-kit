@@ -23,4 +23,3 @@ yarn-error.log
 /.vscode
 /.zed
 composer.lock
-package-lock.json
