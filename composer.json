@@ -1,11 +1,17 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/vue-starter-kit",
+    "name": "engnua/laravel-vue-primeui-starter-kit",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "The unofficial skeleton application for the Laravel framework.",
     "keywords": [
         "laravel",
-        "framework"
+        "framework",
+        "engnua",
+        "vue-starter-kit",
+        "primeui",
+        "primevue",
+        "ptime",
+        "vue"
     ],
     "license": "MIT",
     "require": {
