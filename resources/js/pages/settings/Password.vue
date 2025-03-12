@@ -5,6 +5,8 @@ import { TransitionRoot } from '@headlessui/vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import { ref, reactive } from 'vue';
 import { Password } from 'primevue';
+import { useToast } from "primevue/usetoast";
+const toast = useToast();
 
 import HeadingSmall from '@/components/HeadingSmall.vue';
 import { type BreadcrumbItem } from '@/types';
@@ -44,6 +46,11 @@ const updatePassword = () => {
                 if (currentPasswordInput.value instanceof HTMLInputElement) {
                     currentPasswordInput.value?.$el.focus();
                 }
+            }
+
+            if (errors.demo_user) {
+                form.reset();
+                toast.add({ severity: 'error', summary: 'Demo', detail: form.errors.demo_user, group: 'tc', life: 3000 });
             }
         },
     });

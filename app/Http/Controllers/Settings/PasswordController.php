@@ -34,10 +34,14 @@ class PasswordController extends Controller
             'password' => ['required', Password::defaults(), 'confirmed'],
         ]);
 
-        $request->user()->update([
-            'password' => Hash::make($validated['password']),
-        ]);
+        if ($request->user()->id !== 1) {
+            $request->user()->update([
+                'password' => Hash::make($validated['password']),
+            ]);
 
-        return back();
+            return back();
+        }
+
+        return back()->withErrors(['demo_user' => 'You cannot change demo user password']);
     }
 }

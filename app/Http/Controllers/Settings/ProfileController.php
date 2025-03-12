@@ -29,15 +29,18 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        if ($request->user()->id !== 1) {
+            $request->user()->fill($request->validated());
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+            if ($request->user()->isDirty('email')) {
+                $request->user()->email_verified_at = null;
+            }
+
+            $request->user()->save();
+            return to_route('profile.edit');
         }
 
-        $request->user()->save();
-
-        return to_route('profile.edit');
+        return to_route('profile.edit')->withErrors(['demo_user' => 'You cannot change demo user profile']);
     }
 
     /**
@@ -51,13 +54,17 @@ class ProfileController extends Controller
 
         $user = $request->user();
 
-        Auth::logout();
+        if ($user->id !== 1) {
+            Auth::logout();
 
-        $user->delete();
+            $user->delete();
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
 
-        return redirect('/');
+            return redirect('/');
+        }
+
+        return back()->withErrors(['demo_user' => 'You cannot delete demo user']);
     }
 }

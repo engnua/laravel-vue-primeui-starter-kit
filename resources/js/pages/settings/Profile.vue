@@ -9,6 +9,8 @@ import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { type BreadcrumbItem, type SharedData, type User } from '@/types';
 import HeadingSmall from '@/components/HeadingSmall.vue';
 import { PrimeIcons } from '@primevue/core/api';
+import { useToast } from "primevue/usetoast";
+const toast = useToast();
 
 interface Props {
     mustVerifyEmail: boolean;
@@ -38,7 +40,14 @@ const submit = () => {
         onSuccess: () => {
             user.name = form.name;
             user.email = form.email;
-        }
+        },
+        onError: (errors: any) => {
+            if (errors.demo_user) {
+                form.name = user.name;
+                form.email = user.email;
+                toast.add({ severity: 'error', summary: 'Demo', detail: form.errors.demo_user, group: 'tc', life: 3000 });
+            }
+        },
     });
 };
 </script>

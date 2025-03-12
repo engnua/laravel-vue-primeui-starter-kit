@@ -5,6 +5,7 @@ import { Head, useForm } from '@inertiajs/vue3';
 
 defineProps<{
     status?: string;
+    error?: string;
 }>();
 
 const form = useForm({
@@ -22,6 +23,10 @@ const submit = () => {
 
         <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-600">
             {{ status }}
+        </div>
+
+        <div v-if="error" class="mb-4 text-center text-sm font-medium text-red-600">
+            {{ error }}
         </div>
 
         <div class="space-y-6">

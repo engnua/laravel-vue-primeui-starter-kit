@@ -3,6 +3,8 @@ import { useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
 // Components
 import HeadingSmall from '@/components/HeadingSmall.vue';
+import { useToast } from "primevue/usetoast";
+const toast = useToast();
 
 const passwordInput = ref<HTMLInputElement | null>(null);
 
@@ -18,7 +20,14 @@ const deleteUser = (e: Event) => {
     form.delete(route('profile.destroy'), {
         preserveScroll: true,
         onSuccess: () => closeModal(),
-        onError: () => passwordInput.value?.$el.focus(),
+        onError: (error: any) => {
+            if (error.demo_user) {
+                visible.value = false;
+                toast.add({ severity: 'error', summary: 'Demo', detail: form.errors.demo_user, group: 'tc', life: 3000 });
+            }
+
+            passwordInput.value?.$el.focus()
+        },
         onFinish: () => form.reset(),
     });
 };
