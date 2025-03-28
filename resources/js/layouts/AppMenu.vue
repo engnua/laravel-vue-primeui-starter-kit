@@ -3,22 +3,15 @@ import { ref } from 'vue';
 
 import AppMenuItem from './AppMenuItem.vue';
 
-const model = ref([
+const menu = ref([
     {
         label: 'Home',
         items: [
-            { label: 'Dashboard', icon: 'pi pi-fw pi-home', to: route('dashboard') }
-        ]
-    },
-    {
-        label: 'Get Started',
-        items: [
             {
-                label: 'View Source',
-                icon: 'pi pi-fw pi-github',
-                url: 'https://github.com/engnua/laravel-vue-primeui-starter-kit',
-                target: '_blank'
-            }
+                label: 'Dashboard',
+                icon: 'pi pi-fw pi-home',
+                href: route('dashboard')
+            },
         ]
     }
 ]);
@@ -26,11 +19,24 @@ const model = ref([
 
 <template>
     <ul class="layout-menu">
-        <template v-for="(item, i) in model" :key="item">
+        <template v-for="(item, i) in menu" :key="item">
             <AppMenuItem v-if="!item.separator" :item="item" :index="i"></AppMenuItem>
             <li v-if="item.separator" class="menu-separator"></li>
         </template>
     </ul>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.layout-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    .menu-separator {
+        height: 1px;
+        background-color: var(--surface-border);
+        margin: 8px 0;
+        width: 100%;
+    }
+}
+</style>

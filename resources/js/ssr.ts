@@ -5,13 +5,7 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createSSRApp, h } from 'vue';
 import { route as ziggyRoute } from 'ziggy-js';
 
-import { getPreset } from './composables/useAppearance';
-
-import PrimeVue from 'primevue/config';
-
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
-
-const defaultPreset = getPreset();
 
 createServer((page) =>
     createInertiaApp({
@@ -40,18 +34,6 @@ createServer((page) =>
             }
 
             app.use(plugin);
-            app.use(PrimeVue, {
-                theme: {
-                    preset: defaultPreset,
-                    options: {
-                        darkModeSelector: '.dark',
-                        /*cssLayer: {
-                            name: 'primevue',
-                            order: 'tailwind-base, primevue, tailwind-utilities'
-                        }*/
-                    }
-                }
-            });
 
             return app;
         },
