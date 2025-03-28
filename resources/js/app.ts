@@ -1,11 +1,12 @@
 import '../css/app.scss';
 
-import { createInertiaApp } from '@inertiajs/vue3';
+import { useNProgress } from '@/composables/useNProgress';
+import { createInertiaApp, router } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import type { DefineComponent } from 'vue';
 import { createApp, h } from 'vue';
-import { ZiggyVue } from 'ziggy-js';
-import { initializeTheme, getPreset } from './composables/useAppearance';
+import { ZiggyVue } from 'ziggy-js'
+import { getPreset, initializeTheme } from './composables/useAppearance';
 
 import PrimeVue from 'primevue/config';
 import ConfirmationService from 'primevue/confirmationservice';
@@ -15,6 +16,7 @@ import ToastService from 'primevue/toastservice';
 declare module 'vite/client' {
     interface ImportMetaEnv {
         readonly VITE_APP_NAME: string;
+
         [key: string]: string | boolean | undefined;
     }
 
@@ -26,14 +28,46 @@ declare module 'vite/client' {
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
-
 const defaultPreset = getPreset();
+const nprogress = useNProgress();
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) => resolvePageComponent(`./pages/${name}.vue`, import.meta.glob<DefineComponent>('./pages/**/*.vue')),
     setup({ el, App, props, plugin }) {
-        createApp({ render: () => h(App, props) })
+        const vueApp = createApp({
+            render: () => h('div', [h(App, props)]),
+        });
+
+        let timeout: number | null | undefined = null;
+
+        router.on('start', () => {
+            timeout = setTimeout(() => nprogress.start(), 250);
+        });
+
+        router.on('progress', (event) => {
+            if (nprogress.isStarted() && event.detail.progress?.percentage) {
+                nprogress.set((event.detail.progress.percentage / 100) * 0.9);
+            }
+        });
+
+        router.on('finish', (event) => {
+            if (timeout !== null) {
+                clearTimeout(timeout);
+            }
+            if (!nprogress.isStarted()) {
+                return;
+            } else if (event.detail.visit.completed) {
+                nprogress.done();
+            } else if (event.detail.visit.interrupted) {
+                nprogress.set(0);
+            } else if (event.detail.visit.cancelled) {
+                nprogress.done();
+                nprogress.remove();
+            }
+        });
+
+        vueApp
             .use(plugin)
             .use(ZiggyVue)
             .use(PrimeVue, {
@@ -41,20 +75,15 @@ createInertiaApp({
                     preset: defaultPreset,
                     options: {
                         darkModeSelector: '.dark',
-                        /*cssLayer: {
-                            name: 'primevue',
-                            order: 'tailwind-base, primevue, tailwind-utilities'
-                        }*/
-                    }
-                }
+                    },
+                },
+                ripple: true,
             })
             .use(ToastService)
             .use(ConfirmationService)
             .mount(el);
     },
-    progress: {
-        color: '#4B5563',
-    },
+    progress: false,
 });
 
 // This will set light / dark mode on page load...

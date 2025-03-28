@@ -41,9 +41,9 @@ To change default theme preset, change config in [useAppearance.ts](resources/js
 
 ```js
 const layoutConfig = reactive({
-    preset: 'Aura',
-    primary: 'noir',
-    surface: 'soho',
-    menuMode: 'static'
+    preset: localStorage.getItem('layout_preset') || 'Aura',
+    primary: localStorage.getItem('layout_primary') || 'noir',
+    surface: localStorage.getItem('layout_surface') || 'soho',
+    menuMode: localStorage.getItem('layout_menu_mode') || 'static'
 });
 ```

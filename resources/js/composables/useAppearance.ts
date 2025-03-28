@@ -5,10 +5,10 @@ import Lara from '@primeuix/themes/lara';
 import Nora from '@primeuix/themes/nora';
 
 const layoutConfig = reactive({
-    preset: 'Aura',
-    primary: 'noir',
-    surface: 'soho',
-    menuMode: 'static'
+    preset: localStorage.getItem('layout_preset') || 'Aura',
+    primary: localStorage.getItem('layout_primary') || 'noir',
+    surface: localStorage.getItem('layout_surface') || 'soho',
+    menuMode: localStorage.getItem('layout_menu_mode') || 'static'
 });
 
 const layoutState = reactive({
@@ -230,6 +230,7 @@ export function getPresetExt() {
                 primary: color?.palette,
                 colorScheme: {
                     light: {
+                        surface: surface?.palette,
                         primary: {
                             color: '{primary.500}',
                             contrastColor: '#ffffff',
@@ -244,6 +245,7 @@ export function getPresetExt() {
                         }
                     },
                     dark: {
+                        surface: surface?.palette,
                         primary: {
                             color: '{primary.400}',
                             contrastColor: '{surface.900}',
@@ -276,8 +278,10 @@ export function useLayoutPreset() {
     function updateColors(type: 'primary' | 'surface', color: any) {
         if (type === 'primary') {
             layoutConfig.primary = color.name;
+            localStorage.setItem('layout_primary', color.name);
         } else if (type === 'surface') {
             layoutConfig.surface = color.name;
+            localStorage.setItem('layout_surface', color.name);
         }
 
         applyTheme(type, color);
@@ -285,6 +289,7 @@ export function useLayoutPreset() {
 
     function onPresetChange() {
         layoutConfig.preset = preset.value;
+        localStorage.setItem('layout_preset', preset.value);
         const presetValue = presets[preset.value as keyof typeof presets];
         const surfacePalette = surfaces.value.find((s) => s.name === layoutConfig.surface)?.palette;
 
@@ -293,6 +298,7 @@ export function useLayoutPreset() {
 
     function onMenuModeChange() {
         layoutConfig.menuMode = menuMode.value;
+        localStorage.setItem('layout_menu_mode', menuMode.value);
     }
 
     return {
@@ -313,6 +319,7 @@ export function useLayoutPreset() {
 export function useAppearance() {
     const setActiveMenuItem = (item: any) => {
         layoutState.activeMenuItem = item.value || item;
+        localStorage.setItem('layout_menu_mode', menuMode.value);
     };
 
     const appearance = ref<Appearance>('system');
