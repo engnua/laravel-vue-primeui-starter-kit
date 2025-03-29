@@ -14,6 +14,11 @@ import { PrimeIcons } from '@primevue/core/api';
 
 const breadcrumbItems = ref<BreadcrumbItem[]>([
     {
+        title: 'Profile settings',
+        icon: PrimeIcons.USER,
+        route: route('profile.edit')
+    },
+    {
         title: 'Password settings',
         icon: PrimeIcons.LOCK
     },

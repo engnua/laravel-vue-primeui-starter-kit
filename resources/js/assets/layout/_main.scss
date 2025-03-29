@@ -3,8 +3,15 @@
     flex-direction: column;
     min-height: 100vh;
     justify-content: space-between;
-    padding: 6rem 2rem 0 2rem;
     transition: margin-left var(--layout-section-transition-duration);
+}
+
+.layout-main-container-padding-default {
+    padding: 6rem 2rem 0 2rem;
+}
+
+.layout-main-container-padding-topsubbar {
+    padding: 10rem 2rem 0 2rem;
 }
 
 .layout-main {

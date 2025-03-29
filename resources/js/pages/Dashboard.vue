@@ -5,16 +5,11 @@ import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import PlaceholderPattern from '../components/PlaceholderPattern.vue';
 
-const breadcrumbs = ref<BreadcrumbItem[]>([
-    {
-        title: 'Dashboard',
-    },
-]);
+const breadcrumbs = ref<BreadcrumbItem[]>();
 </script>
 
 <template>
     <Head title="Dashboard" />
-
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl">
             <div class="grid auto-rows-min gap-4 md:grid-cols-3">

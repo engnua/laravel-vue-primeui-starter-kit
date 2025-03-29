@@ -4,15 +4,24 @@ import { computed, ref, watch } from 'vue';
 import AppFooter from './AppFooter.vue';
 import AppSidebar from './AppSidebar.vue';
 import AppTopbar from './AppTopbar.vue';
-import type { BreadcrumbItemType } from '@/types';
-import Breadcrumbs from '@/components/Breadcrumbs.vue';
+import AppSubTopbar from './AppSubTopbar.vue';
+import { AppTopSubBarItem, BreadcrumbItemType } from '@/types';
 
 interface Props {
     breadcrumbs?: BreadcrumbItemType[];
+    actions?: AppTopSubBarItem[];
 }
 
 withDefaults(defineProps<Props>(), {
     breadcrumbs: () => [],
+    actions: () => [
+        {
+            title: 'Packagist',
+            icon: 'pi pi-github',
+            url: 'https://packagist.org/packages/engnua/laravel-vue-primeui-starter-kit',
+            target: '_blank',
+        }
+    ]
 });
 
 const { layoutConfig, layoutState, isSidebarActive } = useAppearance();
@@ -67,13 +76,17 @@ function isOutsideClicked(event: Event) {
 
 <template>
     <div class="layout-wrapper" :class="containerClass">
-        <AppTopbar />
-        <AppSidebar />
-        <div class="layout-main-container">
+        <AppTopbar :class="{ 'border-b dark:border-surface-700': breadcrumbs.length || actions.length }" />
+        <AppSubTopbar v-if="breadcrumbs.length || actions.length" :breadcrumbs="breadcrumbs" :actions="actions"/>
+        <AppSidebar :class="{
+            'layout-sidebar-margin-default': !breadcrumbs.length || !actions.length,
+            'layout-sidebar-margin-topsubbar': breadcrumbs.length || actions.length,
+        }" />
+        <div class="layout-main-container" :class="{
+            'layout-main-container-padding-default': !breadcrumbs.length || !actions.length,
+            'layout-main-container-padding-topsubbar': breadcrumbs.length || actions.length,
+        }">
             <div class="layout-main">
-                <template v-if="breadcrumbs && breadcrumbs.length > 0">
-                    <Breadcrumbs :breadcrumbs="breadcrumbs" />
-                </template>
                 <slot />
             </div>
             <AppFooter />

@@ -20,7 +20,7 @@ const menu = ref([
 
 <template>
     <div class="mt-3">
-        <ul class="layout-menu" :class="{ 'border-t': menu.length > 0 }">
+        <ul class="layout-menu" :class="{ 'border-t dark:border-surface-700': menu.length > 0 }">
             <template v-for="(item, i) in menu" :key="item">
                 <AppMenuItem v-if="!item.separator" :item="item" :index="i"></AppMenuItem>
                 <li v-if="item.separator" class="menu-separator"></li>

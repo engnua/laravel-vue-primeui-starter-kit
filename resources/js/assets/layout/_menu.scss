@@ -3,11 +3,9 @@
 .layout-sidebar {
     position: fixed;
     width: 20rem;
-    height: calc(100vh - 8rem);
     z-index: 999;
     overflow-y: auto;
     user-select: none;
-    top: 6rem;
     left: 2rem;
     transition:
         transform var(--layout-section-transition-duration),
@@ -16,6 +14,16 @@
     border-radius: var(--p-card-border-radius);
     padding: 0.5rem 1.5rem;
     box-shadow: var(--p-card-shadow);
+}
+
+.layout-sidebar-margin-default {
+    height: calc(100vh - 8rem);
+    top: 6rem;
+}
+
+.layout-sidebar-margin-topsubbar {
+    height: calc(100vh - 12rem);
+    top: 10rem;
 }
 
 .layout-menu {

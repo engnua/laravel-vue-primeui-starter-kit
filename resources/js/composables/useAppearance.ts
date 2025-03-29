@@ -7,7 +7,7 @@ import Nora from '@primeuix/themes/nora';
 const layoutConfig = reactive({
     preset: localStorage.getItem('layout_preset') || 'Aura',
     primary: localStorage.getItem('layout_primary') || 'noir',
-    surface: localStorage.getItem('layout_surface') || 'soho',
+    surface: localStorage.getItem('layout_surface') || 'zinc',
     menuMode: localStorage.getItem('layout_menu_mode') || 'static'
 });
 

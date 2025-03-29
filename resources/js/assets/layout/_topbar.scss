@@ -96,6 +96,25 @@
     }
 }
 
+.layout-sub-topbar {
+    position: fixed;
+    height: 7.3rem;
+    z-index: 996;
+    width: 100%;
+    padding: 0 2rem;
+    background-color: var(--surface-card);
+    transition: left var(--layout-section-transition-duration);
+    border-bottom: 1px solid var(--surface-border);
+    align-items: center;
+
+    .layout-sub-topbar-content {
+        padding-top: 4rem;
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+    }
+}
+
 @media (max-width: 991px) {
     .layout-topbar {
         padding: 0 2rem;
