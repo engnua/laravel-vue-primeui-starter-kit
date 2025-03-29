@@ -13,6 +13,15 @@ export interface BreadcrumbItem {
     target?: string;
 }
 
+export interface AppTopSubBarItem {
+    title: string;
+    route?: string;
+    icon?: string;
+    url?: string;
+    target?: string;
+    command?: any;
+}
+
 export interface NavItem {
     title: string;
     route: string;

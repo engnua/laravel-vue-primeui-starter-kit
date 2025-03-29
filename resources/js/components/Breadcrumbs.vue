@@ -23,20 +23,16 @@ const home = ref({
 </script>
 
 <template>
-    <Card class="mb-4">
-        <template #content>
-            <Breadcrumb :home="home" :model="breadcrumbs">
-                <template #item="{ item, props }">
-                    <Link v-if="item.route" :href="item.route" custom>
-                        <span :class="[item.icon, 'text-color']" />
-                        <span class="text-primary font-semibold ml-2">{{ item.title }}</span>
-                    </Link>
-                    <a v-else :href="item.url" :target="item.target" v-bind="props.action">
-                        <span :class="[item.icon, 'text-color']" />
-                        <span class="text-surface-700 dark:text-surface-0">{{ item.title }}</span>
-                    </a>
-                </template>
-            </Breadcrumb>
+    <Breadcrumb v-if="breadcrumbs.length" :home="home" :model="breadcrumbs">
+        <template #item="{ item, props }">
+            <Link v-if="item.route" :href="item.route" custom>
+                <span :class="[item.icon, 'text-color']" />
+                <span class="text-primary font-semibold ml-2 hidden md:inline-block">{{ item.title }}</span>
+            </Link>
+            <a v-else :href="item.url" :target="item.target" v-bind="props.action">
+                <span :class="[item.icon, 'text-color']" />
+                <span class="text-surface-700 dark:text-surface-0">{{ item.title }}</span>
+            </a>
         </template>
-    </Card>
+    </Breadcrumb>
 </template>

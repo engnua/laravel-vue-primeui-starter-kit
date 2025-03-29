@@ -2,16 +2,11 @@
 import { Link } from "@inertiajs/vue3";
 import AppConfigurator from './AppConfigurator.vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
-import type { BreadcrumbItemType } from '@/types';
 import AppearanceSelector from '@/components/AppearanceSelector.vue';
 import UserButton from '@/components/UserButton.vue';
 import { useAppearance } from '@/composables/useAppearance';
 
 const { toggleMenu } = useAppearance();
-
-defineProps<{
-    breadcrumbs?: BreadcrumbItemType[];
-}>();
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 </script>
@@ -30,7 +25,6 @@ const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
                 <span>{{ appName}}</span>
             </Link>
         </div>
-
         <div class="layout-topbar-actions">
             <div class="layout-config-menu">
                 <div class="relative">
